@@ -1,8 +1,8 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   { ignores: ['dist'] },
@@ -17,7 +17,11 @@ export default [
         sourceType: 'module',
       },
     },
-    settings: { react: { version: '18.3' } },
+    settings: {
+      react: {
+        version: 'detect', // React sürümünü otomatik algılar
+      },
+    },
     plugins: {
       react,
       'react-hooks': reactHooks,
@@ -28,11 +32,18 @@ export default [
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
+
+      // Kullanıcı kuralları
+      'react/jsx-no-target-blank': 'off', // target="_blank" hatalarını devre dışı bırakır
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
+      'react/prop-types': 'off', // Eğer PropTypes kullanmıyorsanız bu kuralı devre dışı bırakır
+      'react/jsx-props-no-spreading': 'off', // Props yayılımına izin verir
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // Kullanılmayan değişkenler için uyarı, "_" ile başlayanları yoksayar
+      'react/jsx-uses-react': 'off', // React 17+ için gerekli değil
+      'react/react-in-jsx-scope': 'off', // React 17+ için gerekli değil
     },
   },
-]
+];
