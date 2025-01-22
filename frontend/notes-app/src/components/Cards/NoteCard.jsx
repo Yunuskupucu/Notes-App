@@ -42,7 +42,7 @@ const NoteCard = ({
           />
           <MdDelete
             className="icon-btn hover:text-red-500"
-            onclick={onDelete}
+            onClick={onDelete}
           />
         </div>
       </div>
