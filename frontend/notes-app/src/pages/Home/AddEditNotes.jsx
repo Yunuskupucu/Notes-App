@@ -99,17 +99,17 @@ const AddEditNotes = ({
       </button>
 
       <div className="flex flex-col gap-2">
-        <label className="input-label">TITLE</label>
+        <label className="input-label text-black font-bold">TITLE</label>
         <input
           type="text"
-          placeholder="Go To Gym At 6"
+          placeholder="Enter Title"
           className="text-2xl text-slate-950 outline-none"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
       </div>
       <div className="flex flex-col gap-2 mt-4">
-        <label className="input-label">CONTENT</label>
+        <label className="input-label  text-black font-bold">CONTENT</label>
         <textarea
           type="text"
           className="text-sm text-slate-950 outline-none bg-slate-50 p-2 rounded"
@@ -120,7 +120,7 @@ const AddEditNotes = ({
         />
       </div>
       <div className="input-label">
-        <label className="input-label">TAGS</label>
+        <label className="input-label  text-black font-bold">TAGS</label>
         <TagInput tags={tags} setTags={setTags} />
       </div>
 

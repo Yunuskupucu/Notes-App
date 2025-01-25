@@ -138,7 +138,7 @@ app.get('/get-user', authenticateToken, async (req, res) => {
 // Add Note
 app.post('/add-note', authenticateToken, async (req, res) => {
   const { title, content, tags } = req.body;
-  const user = req.user;
+  const { user } = req.user;
 
   if (!title) {
     return res.status(400).json({ error: true, message: 'Title is required' });
@@ -286,6 +286,39 @@ app.put('/update-note-pinned/:noteId', authenticateToken, async (req, res) => {
       error: true,
       message: 'Internal Server Error',
       details: error.message, // Hata mesajını istemciye döndürün (Debugging amaçlı)
+    });
+  }
+});
+
+// Search Notes
+app.get('/search-notes', authenticateToken, async (req, res) => {
+  const { user } = req.user;
+  const { query } = req.query;
+
+  if (!query) {
+    return res
+      .status(400)
+      .json({ error: true, message: 'Search query is required' });
+  }
+  try {
+    const matchingNotes = await Note.find({
+      userId: user._id,
+      $or: [
+        { title: { $regex: new RegExp(query, 'i') } }, // Başlıkta arama
+        { content: { $regex: new RegExp(query, 'i') } }, // İçerikte arama
+        { tags: { $regex: new RegExp(query, 'i') } }, // Etiketlerde arama
+      ],
+    });
+
+    return res.json({
+      error: false,
+      notes: matchingNotes,
+      message: 'Notes matching the search query retrieved successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: 'Internal server error',
     });
   }
 });
